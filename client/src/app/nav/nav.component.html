@@ -27,7 +27,10 @@
       </form>
       
       <div class="dropdown" *ngIf="(accoutService.currentUser$ | async) as user">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="dropdown-item profile-link-photo" routerLink="/member/edit">
+          <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}" style="border-radius: 4px;">
+        </a>
+        <button class="btn btn-secondary dropdown-toggle" style="margin-left: 1px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           Welcome {{user.username | titlecase}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

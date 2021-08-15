@@ -1,13 +1,134 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+<!-- (ngSubmit)="registerForm.valid && register()" to prevent when user press enter
+to send the form, form won´t be send by pressing enter if the form is not valid -->
+
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off">
    <h2 class="text-center text-primary">Sign Up</h2>
-   <div class="form-group">
-       <input type="text" name="username" class="form-control" [(ngModel)] ="model.username" placeholder="Username">
-   </div>
-   <div class="form-group">
-        <input type="password" name="password" class="form-control" [(ngModel)] ="model.password" placeholder="Password">
-   </div>
-   <div class="form-group">
-        <button type="submit" class="btn btn-success mr-2">Register</button>
+   
+  <div class="form-group mb-2">
+    <label class="cotrol-label" style="margin-right: 10px">I am a:</label>
+    <label class="radio-inline">
+      <input type="radio" value="male" formControlName='gender'> Male
+    </label>
+    <label class="radio-inline" style="padding-left: 8px; padding-top: 3px;">
+      <input type="radio" value="female" formControlName='gender' class="ml-3"> Female
+    </label>
+  </div>
+
+  <div class="form-group mb-2">
+    <input 
+         [ngClass] = "{ 'is-invalid': f.username.errors && f.username.touched}"
+         type="text" 
+         formControlName="username" 
+         class="form-control" 
+         placeholder="Username">
+
+     <div *ngIf="f.username.errors">
+       <div class ="text-danger" *ngIf="f.username.errors.required && f.username.touched">Please enter a username!</div>
+     </div>
+  </div>
+
+  <div class="form-group mb-2">
+    <input 
+         [ngClass] = "{ 'is-invalid': f.knownAs.errors && f.knownAs.touched}"
+         type="text" 
+         formControlName="knownAs" 
+         class="form-control" 
+         placeholder="known As">
+
+     <div *ngIf="f.knownAs.errors">
+       <div class ="text-danger" *ngIf="f.knownAs.errors.required && f.knownAs.touched">This Field is required!</div>
+     </div>
+  </div>
+
+  <!-- <app-date-input formControlName="dateOfBirth" label="Date of Birth"></app-date-input> -->
+  <div class="form-group mb-2">
+    <input 
+         [ngClass] = "{ 'is-invalid': f.dateOfBirth.errors && f.dateOfBirth.touched}"
+         type="text" 
+         formControlName="dateOfBirth" 
+         class="form-control" 
+         placeholder="Date of Birth"
+         bsDatepicker
+         [bsConfig]="{isAnimated: true}">
+
+     <div *ngIf="f.dateOfBirth.errors">
+       <div class ="text-danger" *ngIf="f.dateOfBirth.errors.required && f.dateOfBirth.touched">Please enter your date Of Birth!</div>
+     </div>
+  </div> 
+
+  <div class="form-group mb-2">
+    <input 
+         [ngClass] = "{ 'is-invalid': f.city.errors && f.city.touched}"
+         type="text" 
+         formControlName="city" 
+         class="form-control" 
+         placeholder="city">
+
+     <div *ngIf="f.city.errors">
+       <div class ="text-danger" *ngIf="f.city.errors.required && f.city.touched">Please enter your City!</div>
+     </div>
+  </div>
+
+  <div class="form-group mb-2">
+    <input 
+         [ngClass] = "{ 'is-invalid': f.country.errors && f.country.touched}"
+         type="text" 
+         formControlName="country" 
+         class="form-control" 
+         placeholder="country">
+
+     <div *ngIf="f.country.errors">
+       <div class ="text-danger" *ngIf="f.country.errors.required && f.country.touched">Please enter your Coutry!</div>
+     </div>
+  </div>
+
+  <div class="form-group">
+    <input 
+           [ngClass] = "{ 'is-invalid': f.password.errors && f.password.touched }"
+           type="password" 
+           formControlName="password" 
+           class="form-control" 
+           placeholder="Password">
+     <div *ngIf="f.password.errors">
+       <div class="text-danger" *ngIf="f.password.errors.required && f.password.touched">
+         Please enter your password!
+       </div>
+       <div class="text-danger" *ngIf="f.password.errors.minlength && f.password.touched">
+        Password must be at least 4 characters!
+      </div>
+      <div class="text-danger" *ngIf="f.password.errors.maxlength && f.password.touched">
+        Password must be at most 8 characters!
+      </div>
+     </div>
+  </div>
+
+  <div class="form-group my-2">
+    <input 
+         [ngClass] ="{ 'is-invalid': f.confirmPassword.errors && f.confirmPassword.touched}"
+         type="password" 
+         formControlName="confirmPassword" 
+         class="form-control" 
+         placeholder="Confirm Password">
+     <div *ngIf="f.confirmPassword.errors">
+       <div class="text-danger" *ngIf="f.confirmPassword.errors.required && f.confirmPassword.touched">
+         Please enter a confirm Password!
+       </div>
+     </div>
+  </div>
+
+  <div class="row mt-5" *ngIf="validationErrors.length > 0">
+    <ul class="text-danger">
+        <li *ngFor="let error of validationErrors">{{error}}</li>
+    </ul>
+  </div>
+
+  <div class="form-group">
+        <button [disabled]="registerForm.invalid" type="submit" class="btn btn-success mr-2">Register</button>
         <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-   </div>
+  </div>
 </form>
+<!-- 
+<p>Form Value: {{registerForm.value | json}}</p>
+<p>Form Status: {{registerForm.status | json}}</p> -->
+
+<!-- #registerForm="ngForm" [(ngModel)] ="model.username" -->

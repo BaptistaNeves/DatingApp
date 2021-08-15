@@ -1,0 +1,22 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+img {
+    max-height: 50px;
+    border: 2px solid #ffffff;
+    display: inline;
+}
+
+.profile-link-photo {
+    display: inline;
+    background-color: transparent;
+}
+
+.profile-link-photo:hover {
+    background-color: transparent;
+}
+
+.profile-link-photo:active {
+    background-color: transparent;
+}

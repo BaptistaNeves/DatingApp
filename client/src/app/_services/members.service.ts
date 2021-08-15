@@ -1,10 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import {Member} from 'src/app/_models/member'
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PaginatedResult } from '../_models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,28 @@ import { map } from 'rxjs/operators';
 export class MembersService {
   baseUrl = environment.apiUrl;
   members: Member[] = [];
+  paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
 
   constructor(private http: HttpClient) { }
 
-  getMembers(){
-    if(this.members.length > 0) return of(this.members);
-    return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
-      map(members => {
-        this.members = members;
-        return members;
+  getMembers(page: number | null, itemsPerPage: number | null){
+  
+    //This will take care of adding our params in the queryString.
+    let params = new HttpParams(); 
+
+    if(page !== null && itemsPerPage !== null) {
+      params = params.append("pageNumber", page.toString());
+      params = params.append("pageSize", itemsPerPage.toString());
+    }
+
+    return this.http.get<Member[]>(this.baseUrl + 'users', {observe: 'response', params}).pipe(
+      map(response => {
+        this.paginatedResult.result = response.body!;
+        if(response.headers.get('Pagination') !== null) {
+          this.paginatedResult.pagination = JSON.parse(response.headers.get("Pagination")!);
+        }
+
+        return this.paginatedResult;
       })
     );
   }
@@ -38,5 +52,13 @@ export class MembersService {
         this.members[index] = member;
       })
     );
+  }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {})
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 }

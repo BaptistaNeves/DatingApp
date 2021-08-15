@@ -12,12 +12,12 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
+            //To Strongly type our cloudinary settings, and this give us the ability to access our cloudinary settings via CloudinarySettings class
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings")); 
             services.AddScoped<ITokenService, TokenService>();
-            
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IUserRepository, UserRepository>();
-
-            object p = services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlite(config.GetConnectionString("DefaultConnection"));
