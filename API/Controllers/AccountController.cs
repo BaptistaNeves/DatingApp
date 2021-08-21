@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
 using System.Linq;
 using AutoMapper;
+using System;
 
 namespace API.Controllers
 {
@@ -38,7 +39,6 @@ namespace API.Controllers
             user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
             user.PasswordSalt = hmac.Key;
             
-
             _context.Add(user);
             await _context.SaveChangesAsync();
 

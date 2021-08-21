@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery'
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
-import {BsDatepickerModule} from 'ngx-bootstrap/datepicker'
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
+import {PaginationModule} from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [],
@@ -14,14 +15,16 @@ import {BsDatepickerModule} from 'ngx-bootstrap/datepicker'
     }),
     NgxGalleryModule,
     FileUploadModule,
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot()
     //BsDropdownModule.forRoot()
   ],
   exports: [
      ToastrModule,
      NgxGalleryModule,
      FileUploadModule,
-     BsDatepickerModule
+     BsDatepickerModule,
+     PaginationModule
   ]
 })
 export class SharedModule { }

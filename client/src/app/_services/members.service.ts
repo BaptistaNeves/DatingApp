@@ -17,7 +17,7 @@ export class MembersService {
 
   constructor(private http: HttpClient) { }
 
-  getMembers(page: number | null, itemsPerPage: number | null){
+  getMembers(page: number, itemsPerPage: number){
   
     //This will take care of adding our params in the queryString.
     let params = new HttpParams(); 
