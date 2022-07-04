@@ -31,7 +31,7 @@
           <img src="{{user.photoUrl || './assets/user.png'}}" alt="{{user.username}}" style="border-radius: 4px;">
         </a>
         <button class="btn btn-secondary dropdown-toggle" style="margin-left: 1px;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Welcome {{user.username | titlecase}}
+          Welcome {{user.knownAs | titlecase}}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
           <li><a class="dropdown-item" routerLink="/member/edit">Edit Profile</a></li>
